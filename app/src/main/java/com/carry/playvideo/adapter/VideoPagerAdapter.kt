@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.carry.playvideo.fragments.ImageFragment
 import com.carry.playvideo.fragments.VideoFragment
+import com.google.common.collect.Multimap
 
 /**
  * Create by SunnyDay /06/07 21:40:22

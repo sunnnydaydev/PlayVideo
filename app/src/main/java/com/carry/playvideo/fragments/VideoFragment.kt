@@ -38,11 +38,10 @@ class VideoFragment : Fragment(), Player.Listener {
         super.onViewCreated(view, savedInstanceState)
         playerView = view.findViewById(R.id.player_view)
         img = view.findViewById(R.id.imageView)
-        initializePlayer()
+        loadCover()
     }
 
     private fun initializePlayer() {
-        loadCover()
         player = ExoPlayer.Builder(requireContext()).build().also { exoPlayer ->
             exoPlayer.addListener(this)
             playerView?.player = exoPlayer
@@ -55,13 +54,17 @@ class VideoFragment : Fragment(), Player.Listener {
         }
     }
 
+    private fun releasePlayer(){
+        player?.stop()
+        playerView?.player = null
+        player?.release()
+        player = null
+    }
+
     override fun onResume() {
         super.onResume()
+        initializePlayer()
         Log.d("VideoFragment","onResume:${arguments?.getString(ARG_VIDEO_URL)}")
-        player?.let {
-            it.prepare()
-            it.play()
-        }
     }
 
     override fun onPause() {
@@ -78,10 +81,10 @@ class VideoFragment : Fragment(), Player.Listener {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        playerView?.player = null
-        player?.release()
-        player = null
+        Log.d("VideoFragment","onDestroyView:${arguments?.getString(ARG_VIDEO_URL)}")
+        releasePlayer()
     }
+
 
     companion object {
         private const val ARG_VIDEO_URL = "video_url"
