@@ -142,4 +142,5 @@ class VideoFragment : Fragment(), Player.Listener {
                 .into(it)
         }
     }
+
 }
